@@ -102,15 +102,12 @@ pub fn init_placement_units_on_board(board: std.ArrayList(game.Location), monste
     // Location has unit_index that will be an index into monsters.items[]
     // Yes, let's try that.
 
-    const randomness = std.rand.DefaultPrng;
-    var rng = randomness.init(89587);
-
     for (0..monsters.items.len) |idx| {
         //randomly allocate our Monsters to Locations
-        var rand = rng.random().intRangeAtMost(u16, 0, 99);
+        var rand = std.crypto.random.intRangeAtMost(u16, 0, 99);
         while (board.items[rand].unit_index != null) {
             //remake our random number and go again
-            rand = rng.random().intRangeAtMost(u16, 0, 99);
+            rand = std.crypto.random.intRangeAtMost(u16, 0, 99);
         }
         if (board.items[rand].unit_index == null) {
             board.items[rand].unit_index = idx;
