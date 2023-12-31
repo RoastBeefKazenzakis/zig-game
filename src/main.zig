@@ -1,6 +1,8 @@
 const std = @import("std");
-const root = @import("root.zig");
+//const root = @import("root.zig");
 const game = @import("game.zig");
+const raylib = @cImport(@cInclude("raylib.h"));
+const rlc = @import("raylib_combos.zig");
 
 // Data-Oriented Design Experimentation!
 // DOD is about moving memory-management into distinct areas of code
@@ -69,7 +71,21 @@ pub fn main() !void {
     }
     std.debug.print("Total number of monsters with good board locations: {} \n", .{placed_mon_count});
     //start game loop
+    //raylib stuff here:
 
+    raylib.InitWindow(1080, 640, "Now We're Cooking With Rays");
+    raylib.SetTargetFPS(144);
+    defer raylib.CloseWindow();
+
+    while (!raylib.WindowShouldClose()) {
+        raylib.BeginDrawing();
+        raylib.ClearBackground(raylib.BLACK);
+        //raylib.DrawText("Let's play a game, homie!", 50, 50, 32, raylib.VIOLET);
+        const img1 = raylib.LoadImage("noidlechattering.png");
+        const pic_texture1 = raylib.LoadTextureFromImage(img1);
+        raylib.DrawTexture(pic_texture1, 100, 50, raylib.WHITE);
+        raylib.EndDrawing();
+    }
 }
 
 pub fn init_units() !std.ArrayList(game.Monster) {
